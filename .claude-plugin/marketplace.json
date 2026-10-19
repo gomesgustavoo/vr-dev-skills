@@ -1,5 +1,5 @@
 {
-  "name": "quest-dev-skills",
+  "name": "vr-dev-skills",
   "owner": {
     "name": "Gustavo Formento",
     "url": "https://github.com/gomesgustavoo"
@@ -7,7 +7,7 @@
   "description": "Claude Code skills for simulator-first Meta Quest development: Unity + Meta XR Simulator + XR Operator, the Horizon OS MCP, headless builds and sideloading, and a headless Blender asset pipeline.",
   "plugins": [
     {
-      "name": "quest-dev",
+      "name": "vr-dev",
       "source": ".",
       "description": "Simulator-first Meta Quest development: the Unity XR Simulator/Operator test loop, Horizon OS MCP, build + sideload with gates, and headless Blender VR assets.",
       "version": "1.0.0",

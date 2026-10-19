@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/hero.svg" alt="quest-dev-skills: simulator-first Meta Quest development with Claude Code" width="100%">
+  <img src="docs/assets/hero.svg" alt="vr-dev-skills: simulator-first Meta Quest development with Claude Code" width="100%">
 </p>
 
 <p align="center">
@@ -145,8 +145,8 @@ Each skill is a folder with a `SKILL.md` (what Claude reads first), `scripts/`, 
 In Claude Code:
 
 ```text
-/plugin marketplace add gomesgustavoo/quest-dev-skills
-/plugin install quest-dev@quest-dev-skills
+/plugin marketplace add gomesgustavoo/vr-dev-skills
+/plugin install vr-dev@vr-dev-skills
 ```
 
 Recommended alongside it: Meta's own plugin, which brings the Horizon OS MCP server and Meta's
@@ -161,8 +161,8 @@ Recommended alongside it: Meta's own plugin, which brings the Horizon OS MCP ser
 <summary><b>Prefer plain skill folders?</b> Copy them into <code>~/.claude/skills</code></summary>
 
 ```bash
-git clone https://github.com/gomesgustavoo/quest-dev-skills
-cd quest-dev-skills
+git clone https://github.com/gomesgustavoo/vr-dev-skills
+cd vr-dev-skills
 ./tools/install.sh                      # macOS / Linux / Git Bash
 powershell -File tools\install.ps1      # Windows PowerShell
 ```
@@ -241,7 +241,7 @@ Machine SSIM 0.94, ΔE 3.8, 19 / 19 validate checks, and the same FBX sha256 on 
 ## Repository layout
 
 ```text
-quest-dev-skills/
+vr-dev-skills/
 ├── .claude-plugin/          plugin.json + marketplace.json (this repo is its own marketplace)
 ├── skills/
 │   ├── unity-quest-sim-loop/    SKILL.md · scripts/ · assets/ (C# templates, scenarios) · references/ · evals/

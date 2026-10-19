@@ -1,14 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
-  "name": "quest-dev",
+  "name": "vr-dev",
   "version": "1.0.0",
   "description": "Simulator-first Meta Quest development with Claude Code: drive a Unity app in the Meta XR Simulator through the XR Operator and assert on its state, use the Horizon OS MCP for docs, devices and Perfetto traces, build and sideload with gates, and build VR assets with headless Blender.",
   "author": {
     "name": "Gustavo Formento",
     "url": "https://github.com/gomesgustavoo"
   },
-  "homepage": "https://github.com/gomesgustavoo/quest-dev-skills",
-  "repository": "https://github.com/gomesgustavoo/quest-dev-skills",
+  "homepage": "https://github.com/gomesgustavoo/vr-dev-skills",
+  "repository": "https://github.com/gomesgustavoo/vr-dev-skills",
   "license": "MIT",
   "keywords": ["meta-quest", "horizon-os", "unity", "openxr", "xr-simulator", "xr-operator", "mcp", "blender", "vr", "mixed-reality", "testing", "agent-skills"]
 }

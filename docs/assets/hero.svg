@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 420" width="1280" height="420" role="img" aria-labelledby="t d">
-  <title id="t">quest-dev-skills</title>
+  <title id="t">vr-dev-skills</title>
   <desc id="d">Simulator-first Meta Quest development with Claude Code: Unity and the Meta XR Simulator, the XR Operator, the Horizon OS MCP and headless Blender.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
@@ -63,7 +63,7 @@
       <circle cx="18" cy="15" r="4.5" fill="#22D3EE" class="pulse"/>
       <text x="32" y="20" class="mono">claude code plugin</text>
     </g>
-    <text x="0" y="170" class="t1" fill="url(#ink)">quest-dev-skills</text>
+    <text x="0" y="170" class="t1" fill="url(#ink)">vr-dev-skills</text>
     <text x="0" y="212" class="t2">Simulator-first Meta Quest development with Claude Code</text>
     <text x="0" y="246" class="t3">Ask the app. Inject the input. Ask again. Keep the headset for what only hardware can answer.</text>
 
@@ -91,7 +91,7 @@
         <text x="38" y="26" class="chip">Blender CLI</text>
       </g>
     </g>
-    <text x="0" y="370" class="mono" fill-opacity="0.85">$ /plugin install quest-dev@quest-dev-skills<tspan class="blink" fill="#67E8F9">▍</tspan></text>
+    <text x="0" y="370" class="mono" fill-opacity="0.85">$ /plugin install vr-dev@vr-dev-skills<tspan class="blink" fill="#67E8F9">▍</tspan></text>
   </g>
 
   <!-- right: headset in an ask -> act -> ask orbit -->

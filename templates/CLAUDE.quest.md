@@ -13,9 +13,9 @@ again.
 | **L2** | `unity_build.ps1 -Project . -Dev`, `quest_deploy.py deploy Build/<App>-dev.apk --project .` | ~4 min + a worn headset | real tracking, hands, Adreno GPU, performance |
 | **L3** | `unity_build.ps1 -Project .` + the smoke checklist in `docs/SMOKE.md` | ~4 min | the release APK (no Operator layer, no dev tools) |
 
-Skills: `quest-dev:unity-quest-sim-loop` (L0-L2), `quest-dev:quest-build-deploy` (builds,
-sideload, device readout), `quest-dev:horizon-os-mcp` (Meta docs, device, Perfetto),
-`quest-dev:blender-cli-vr-assets` (generated 3D assets).
+Skills: `vr-dev:unity-quest-sim-loop` (L0-L2), `vr-dev:quest-build-deploy` (builds,
+sideload, device readout), `vr-dev:horizon-os-mcp` (Meta docs, device, Perfetto),
+`vr-dev:blender-cli-vr-assets` (generated 3D assets).
 
 ## Project facts the agent needs
 
