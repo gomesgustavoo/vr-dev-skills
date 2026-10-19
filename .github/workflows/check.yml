@@ -20,10 +20,15 @@ jobs:
           python-version: "3.12"
       - name: check_repo.py
         run: python tools/check_repo.py
+      # The gitleaks CLI over the whole history, not gitleaks-action: the action scans
+      # "<first pushed commit>^..HEAD", which git rejects on a repo's first push (no parent).
       - name: gitleaks (full history)
-        uses: gitleaks/gitleaks-action@v2
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_VERSION: "8.24.3"
+        run: |
+          curl -sSfL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz" \
+            | tar -xz -C "$RUNNER_TEMP" gitleaks
+          "$RUNNER_TEMP/gitleaks" git --redact --verbose --exit-code 1 .
       - name: scripts start and print their usage
         run: |
           python skills/unity-quest-sim-loop/scripts/run_scenario.py || test $? -eq 2
