@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 700" width="1280" height="700" role="img" aria-labelledby="t d">
+  <title id="t">The simulator loop</title>
+  <desc id="d">Claude Code drives a Unity Quest app running in editor Play Mode on the Meta XR Simulator: it injects head and controller input through the Meta XR Operator on port 8720, reads the app's own state through DevRemote on port 8731, and pins every finding with a headless gate.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070B16"/><stop offset="1" stop-color="#101633"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.75" cy="0.35" r="0.6">
+      <stop offset="0" stop-color="#7C3AED" stop-opacity="0.22"/><stop offset="1" stop-color="#7C3AED" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22D3EE"/><stop offset="1" stop-color="#C084FC"/>
+    </linearGradient>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" fill="none" stroke="#94A3B8" stroke-opacity="0.06"/>
+    </pattern>
+    <marker id="ac" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#22D3EE"/>
+    </marker>
+    <marker id="ai" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#818CF8"/>
+    </marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#FB923C"/>
+    </marker>
+    <style>
+      text { font-family: 'Segoe UI', 'Inter', -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+      .h { font-size: 26px; font-weight: 800; fill: #F1F5F9; letter-spacing: -0.4px; }
+      .sub { font-size: 15px; fill: #94A3B8; }
+      .ct { font-size: 18px; font-weight: 700; fill: #F1F5F9; }
+      .cs { font-size: 13.5px; fill: #94A3B8; }
+      .m { font-family: 'Cascadia Code', 'JetBrains Mono', Consolas, Menlo, monospace; font-size: 12.5px; fill: #CBD5E1; }
+      .mc { font-family: 'Cascadia Code', 'JetBrains Mono', Consolas, Menlo, monospace; font-size: 12.5px; fill: #67E8F9; }
+      .mi { font-family: 'Cascadia Code', 'JetBrains Mono', Consolas, Menlo, monospace; font-size: 12.5px; fill: #A5B4FC; }
+      .tag { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; }
+      .step { font-size: 15px; font-weight: 700; fill: #F1F5F9; }
+      .stepd { font-size: 13px; fill: #94A3B8; }
+      .flow { stroke-dasharray: 7 9; animation: dash 1.4s linear infinite; }
+      .slow { animation-duration: 2.2s; }
+      @keyframes dash { to { stroke-dashoffset: -32; } }
+      @media (prefers-reduced-motion: reduce) { .flow { animation: none; } }
+    </style>
+  </defs>
+  <rect width="1280" height="700" rx="22" fill="url(#bg)"/>
+  <rect width="1280" height="700" rx="22" fill="url(#grid)"/>
+  <rect width="1280" height="700" rx="22" fill="url(#glow)"/>
+  <rect x="0.5" y="0.5" width="1279" height="699" rx="22" fill="none" stroke="#334155" stroke-opacity="0.6"/>
+
+  <text x="48" y="58" class="h">The simulator loop: ask → act → ask, no headset</text>
+  <text x="48" y="84" class="sub">The app runs in Unity Play Mode on the Meta XR Simulator. The agent reads its state, injects input, and reads it again.</text>
+
+  <!-- agent -->
+  <g transform="translate(48 150)">
+    <rect width="270" height="300" rx="18" fill="#0F172A" stroke="url(#edge)" stroke-width="1.6"/>
+    <text x="22" y="40" class="tag" fill="#67E8F9">AGENT</text>
+    <text x="22" y="70" class="ct">Claude Code</text>
+    <text x="22" y="92" class="cs">+ unity-quest-sim-loop skill</text>
+    <g transform="translate(22 116)">
+      <rect width="226" height="30" rx="8" fill="#111C36" stroke="#1E293B"/><text x="12" y="20" class="m">op.py · run_scenario.py</text>
+      <rect y="38" width="226" height="30" rx="8" fill="#111C36" stroke="#1E293B"/><text x="12" y="58" class="m">aimfix.py · panelshot.py</text>
+      <rect y="76" width="226" height="30" rx="8" fill="#111C36" stroke="#1E293B"/><text x="12" y="96" class="m">imgdiff.py · logscan.py</text>
+      <rect y="114" width="226" height="30" rx="8" fill="#111C36" stroke="#1E293B"/><text x="12" y="134" class="m">reload.py · quickcheck.ps1</text>
+    </g>
+  </g>
+
+  <!-- channels -->
+  <g transform="translate(400 136)">
+    <rect width="300" height="150" rx="16" fill="#0F172A" stroke="#818CF8" stroke-opacity="0.7"/>
+    <text x="20" y="34" class="tag" fill="#A5B4FC">ACT · MCP :8720</text>
+    <text x="20" y="62" class="ct">Meta XR Operator</text>
+    <text x="20" y="88" class="mi">openxr_set_head_pose</text>
+    <text x="20" y="107" class="mi">openxr_set_controller_input</text>
+    <text x="20" y="126" class="mi">openxr_capture_composited_image</text>
+  </g>
+  <g transform="translate(400 316)">
+    <rect width="300" height="150" rx="16" fill="#0F172A" stroke="#22D3EE" stroke-opacity="0.7"/>
+    <text x="20" y="34" class="tag" fill="#67E8F9">ASK · HTTP :8731</text>
+    <text x="20" y="62" class="ct">DevRemote (editor)</text>
+    <text x="20" y="88" class="mc">/tool/myapp_get_state</text>
+    <text x="20" y="107" class="mc">/tool/myapp_debug_renderers</text>
+    <text x="20" y="126" class="m">/status /play /stop /refresh</text>
+  </g>
+
+  <!-- unity -->
+  <g transform="translate(780 120)">
+    <rect width="452" height="364" rx="20" fill="#0B1226" stroke="#334155"/>
+    <text x="22" y="36" class="tag" fill="#94A3B8">UNITY EDITOR · PLAY MODE</text>
+    <g transform="translate(22 54)">
+      <rect width="408" height="150" rx="14" fill="#111A33" stroke="#22D3EE" stroke-opacity="0.45"/>
+      <text x="18" y="32" class="ct">Your Quest app</text>
+      <text x="18" y="54" class="cs">AgentTools: the app reports on itself and acts for the hand</text>
+      <text x="18" y="82" class="mc">myapp_get_state   myapp_press   myapp_poke</text>
+      <text x="18" y="102" class="mc">myapp_snapshot    myapp_debug_renderers</text>
+      <text x="18" y="128" class="cs">same entry points the fingertip and the ray use</text>
+    </g>
+    <g transform="translate(22 216)">
+      <rect width="408" height="50" rx="12" fill="#141B3A" stroke="#818CF8" stroke-opacity="0.55"/>
+      <text x="18" y="31" class="ct" style="font-size:15px">OpenXR API layer: the Operator, in-process</text>
+    </g>
+    <g transform="translate(22 278)">
+      <rect width="408" height="64" rx="12" fill="#1A1238" stroke="#C084FC" stroke-opacity="0.6"/>
+      <text x="18" y="28" class="ct" style="font-size:15px">Meta XR Simulator (OpenXR runtime)</text>
+      <text x="18" y="49" class="cs">a simulated Quest 3: head, Touch controllers, a synthetic room</text>
+    </g>
+  </g>
+
+  <!-- arrows -->
+  <path d="M318 245 C360 230 360 211 396 211" fill="none" stroke="#818CF8" stroke-width="2.4" class="flow" marker-end="url(#ai)"/>
+  <path d="M700 211 C740 211 740 360 798 360" fill="none" stroke="#818CF8" stroke-width="2.4" class="flow" marker-end="url(#ai)"/>
+  <path d="M798 230 C740 230 745 391 704 391" fill="none" stroke="#22D3EE" stroke-width="2.4" class="flow slow" marker-end="url(#ac)"/>
+  <path d="M396 391 C360 391 360 360 322 352" fill="none" stroke="#22D3EE" stroke-width="2.4" class="flow slow" marker-end="url(#ac)"/>
+  <text x="359" y="262" text-anchor="middle" class="mi" style="font-size:11.5px">input</text>
+  <text x="359" y="340" text-anchor="middle" class="mc" style="font-size:11.5px">state</text>
+
+  <!-- the cycle -->
+  <g transform="translate(48 520)">
+    <rect width="1184" height="140" rx="18" fill="#0F172A" stroke="#1E293B"/>
+    <g transform="translate(26 26)">
+      <circle cx="18" cy="18" r="18" fill="#22D3EE" fill-opacity="0.15" stroke="#22D3EE"/><text x="18" y="24" text-anchor="middle" class="step" fill="#67E8F9">1</text>
+      <text x="48" y="16" class="step">Ask</text>
+      <text x="48" y="38" class="stepd">read the state with an</text>
+      <text x="48" y="56" class="stepd">app tool, not a picture</text>
+    </g>
+    <path d="M226 52 H262" stroke="#475569" stroke-width="2" marker-end="url(#ac)"/>
+    <g transform="translate(276 26)">
+      <circle cx="18" cy="18" r="18" fill="#818CF8" fill-opacity="0.15" stroke="#818CF8"/><text x="18" y="24" text-anchor="middle" class="step" fill="#A5B4FC">2</text>
+      <text x="48" y="16" class="step">Act</text>
+      <text x="48" y="38" class="stepd">inject poses and buttons</text>
+      <text x="48" y="56" class="stepd">through the real input path</text>
+    </g>
+    <path d="M500 52 H536" stroke="#475569" stroke-width="2" marker-end="url(#ac)"/>
+    <g transform="translate(550 26)">
+      <circle cx="18" cy="18" r="18" fill="#C084FC" fill-opacity="0.15" stroke="#C084FC"/><text x="18" y="24" text-anchor="middle" class="step" fill="#E9D5FF">3</text>
+      <text x="48" y="16" class="step">Ask again</text>
+      <text x="48" y="38" class="stepd">compare; a check that ends in</text>
+      <text x="48" y="56" class="stepd">"looks right" asserted nothing</text>
+    </g>
+    <path d="M806 52 H842" stroke="#475569" stroke-width="2" marker-end="url(#ao)"/>
+    <g transform="translate(856 26)">
+      <circle cx="18" cy="18" r="18" fill="#FB923C" fill-opacity="0.15" stroke="#FB923C"/><text x="18" y="24" text-anchor="middle" class="step" fill="#FDBA74">4</text>
+      <text x="48" y="16" class="step">Gate it</text>
+      <text x="48" y="38" class="stepd">a headless check, seen failing</text>
+      <text x="48" y="56" class="stepd">once with the bug restored</text>
+    </g>
+    <text x="26" y="118" class="m" fill="#64748B">edit → quickcheck.ps1 (10 s, no project lock) → reload.py (stop → refresh → compile → play) → run_scenario.py suites → repeat</text>
+  </g>
+</svg>

@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 640" width="1280" height="640" role="img" aria-labelledby="t d">
+  <title id="t">The toolchain</title>
+  <desc id="d">Claude Code with the quest-dev plugin uses four skills. Headless Blender builds and validates assets into Unity; Unity runs the app on the Meta XR Simulator driven through the XR Operator; headless builds go to a Quest headset over adb; the Horizon OS MCP serves Meta docs, device control and Perfetto traces to every stage.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#070B16"/><stop offset="1" stop-color="#121035"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.05" r="0.6">
+      <stop offset="0" stop-color="#22D3EE" stop-opacity="0.18"/><stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22D3EE"/><stop offset="0.5" stop-color="#818CF8"/><stop offset="1" stop-color="#F472B6"/>
+    </linearGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#94A3B8"/>
+    </marker>
+    <style>
+      text { font-family: 'Segoe UI', 'Inter', -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+      .h { font-size: 24px; font-weight: 800; fill: #F1F5F9; }
+      .ct { font-size: 17px; font-weight: 700; fill: #F1F5F9; }
+      .cs { font-size: 13px; fill: #94A3B8; }
+      .tag { font-size: 11.5px; font-weight: 800; letter-spacing: 1.3px; }
+      .m { font-family: 'Cascadia Code', 'JetBrains Mono', Consolas, Menlo, monospace; font-size: 12px; fill: #CBD5E1; }
+      .chip { font-family: 'Cascadia Code', 'JetBrains Mono', Consolas, Menlo, monospace; font-size: 12.5px; font-weight: 700; }
+      .flow { stroke-dasharray: 6 9; animation: dash 1.5s linear infinite; }
+      @keyframes dash { to { stroke-dashoffset: -30; } }
+      @media (prefers-reduced-motion: reduce) { .flow { animation: none; } }
+    </style>
+  </defs>
+  <rect width="1280" height="640" rx="22" fill="url(#bg)"/>
+  <rect width="1280" height="640" rx="22" fill="url(#glow)"/>
+  <rect x="0.5" y="0.5" width="1279" height="639" rx="22" fill="none" stroke="#334155" stroke-opacity="0.6"/>
+  <text x="48" y="54" class="h">One agent, four skills, every stage verifiable</text>
+
+  <!-- top: agent + skills -->
+  <g transform="translate(48 80)">
+    <rect width="1184" height="96" rx="18" fill="#0F172A" stroke="url(#edge)" stroke-width="1.6"/>
+    <text x="24" y="38" class="ct">Claude Code</text>
+    <text x="24" y="62" class="cs">+ the quest-dev plugin</text>
+    <g transform="translate(210 28)">
+      <rect width="230" height="40" rx="12" fill="#0B1A2E" stroke="#22D3EE" stroke-opacity="0.7"/><text x="115" y="25" text-anchor="middle" class="chip" fill="#67E8F9">unity-quest-sim-loop</text>
+      <rect x="244" width="222" height="40" rx="12" fill="#151A38" stroke="#818CF8" stroke-opacity="0.7"/><text x="355" y="25" text-anchor="middle" class="chip" fill="#A5B4FC">quest-build-deploy</text>
+      <rect x="480" width="200" height="40" rx="12" fill="#1B1236" stroke="#C084FC" stroke-opacity="0.7"/><text x="580" y="25" text-anchor="middle" class="chip" fill="#E9D5FF">horizon-os-mcp</text>
+      <rect x="694" width="262" height="40" rx="12" fill="#24140F" stroke="#FB923C" stroke-opacity="0.7"/><text x="825" y="25" text-anchor="middle" class="chip" fill="#FDBA74">blender-cli-vr-assets</text>
+    </g>
+  </g>
+
+  <!-- lanes -->
+  <g transform="translate(48 214)">
+    <rect width="360" height="300" rx="18" fill="#140F0B" fill-opacity="0.7" stroke="#FB923C" stroke-opacity="0.55"/>
+    <text x="22" y="34" class="tag" fill="#FDBA74">ASSETS · HEADLESS BLENDER</text>
+    <text x="22" y="64" class="ct">blender -b -P stage.py</text>
+    <text x="22" y="92" class="m">build → bake → preview</text>
+    <text x="22" y="112" class="m">→ validate (sha256) → export</text>
+    <text x="22" y="140" class="cs">one process per stage, pinned version</text>
+    <text x="22" y="160" class="cs">deterministic FBX + baked atlases</text>
+    <text x="22" y="180" class="cs">Cycles previews = the fidelity reference</text>
+    <g transform="translate(22 204)">
+      <rect width="316" height="70" rx="12" fill="#1F150D" stroke="#7C2D12"/>
+      <text x="16" y="28" class="chip" fill="#FDBA74">SSIM ≥ 0.85 · ΔE ≤ 6</text>
+      <text x="16" y="50" class="cs">Unity frame vs the Cycles render, same camera</text>
+    </g>
+  </g>
+  <g transform="translate(460 214)">
+    <rect width="360" height="300" rx="18" fill="#0B1226" stroke="#22D3EE" stroke-opacity="0.55"/>
+    <text x="22" y="34" class="tag" fill="#67E8F9">APP · L0 + L1</text>
+    <text x="22" y="64" class="ct">Unity editor, Play Mode</text>
+    <text x="22" y="92" class="m">Meta XR Simulator (runtime)</text>
+    <text x="22" y="112" class="m">XR Operator  MCP :8720</text>
+    <text x="22" y="132" class="m">DevRemote    HTTP :8731</text>
+    <text x="22" y="160" class="cs">inject poses + buttons, read app state,</text>
+    <text x="22" y="180" class="cs">composited eye capture, pixel diffs</text>
+    <g transform="translate(22 204)">
+      <rect width="316" height="70" rx="12" fill="#0D1B33" stroke="#164E63"/>
+      <text x="16" y="28" class="chip" fill="#67E8F9">run_scenario.py *.json</text>
+      <text x="16" y="50" class="cs">L1 suites that assert, never pass vacuously</text>
+    </g>
+  </g>
+  <g transform="translate(872 214)">
+    <rect width="360" height="300" rx="18" fill="#100D26" stroke="#818CF8" stroke-opacity="0.55"/>
+    <text x="22" y="34" class="tag" fill="#A5B4FC">DEVICE · L2 + L3</text>
+    <text x="22" y="64" class="ct">Quest 3 / 3S</text>
+    <text x="22" y="92" class="m">unity_build.ps1 -Dev  (gates first)</text>
+    <text x="22" y="112" class="m">quest_deploy.py deploy / readout</text>
+    <text x="22" y="132" class="m">adb forward tcp:8720 | adb channel</text>
+    <text x="22" y="160" class="cs">real hands, Adreno GPU, compositor,</text>
+    <text x="22" y="180" class="cs">VrApi fps / App ms / stale / SF</text>
+    <g transform="translate(22 204)">
+      <rect width="316" height="70" rx="12" fill="#15123A" stroke="#3730A3"/>
+      <text x="16" y="28" class="chip" fill="#A5B4FC">perf_trace_compare</text>
+      <text x="16" y="50" class="cs">baseline vs change, one lever at a time</text>
+    </g>
+  </g>
+  <path d="M408 364 H456" stroke="#FB923C" stroke-width="2.4" class="flow" marker-end="url(#a)"/>
+  <path d="M820 364 H868" stroke="#818CF8" stroke-width="2.4" class="flow" marker-end="url(#a)"/>
+  <text x="432" y="352" text-anchor="middle" class="m" style="font-size:11px">FBX</text>
+  <text x="844" y="352" text-anchor="middle" class="m" style="font-size:11px">APK</text>
+
+  <!-- bottom: horizon os mcp bus -->
+  <g transform="translate(48 544)">
+    <rect width="1184" height="64" rx="16" fill="#1A1033" stroke="#C084FC" stroke-opacity="0.65"/>
+    <text x="24" y="27" class="tag" fill="#E9D5FF">HORIZON OS MCP · metavr</text>
+    <text x="24" y="48" class="cs">verify Meta SDK names before writing code</text>
+    <text x="1160" y="39" text-anchor="end" class="m">vr_docs_search · vr_api_search · metavr_device · device_logcat · device_screenshot · perf_trace_*</text>
+  </g>
+  <path d="M228 514 V540" stroke="#C084FC" stroke-width="2" class="flow"/>
+  <path d="M640 514 V540" stroke="#C084FC" stroke-width="2" class="flow"/>
+  <path d="M1052 514 V540" stroke="#C084FC" stroke-width="2" class="flow"/>
+</svg>

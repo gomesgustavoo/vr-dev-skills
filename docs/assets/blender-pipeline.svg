@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 420" width="1280" height="420" role="img" aria-labelledby="t d">
+  <title id="t">Headless Blender asset pipeline</title>
+  <desc id="d">Each stage is its own headless Blender process: build the contract, bake light into atlases, render Cycles reference previews and cameras, validate and record the stage sha256, then export a deterministic FBX that refuses to run without a matching validation. Unity renders the same cameras and is scored against the Cycles reference with SSIM and CIEDE2000.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0A0A14"/><stop offset="1" stop-color="#1A1024"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.15" cy="0.2" r="0.6">
+      <stop offset="0" stop-color="#FB923C" stop-opacity="0.18"/><stop offset="1" stop-color="#FB923C" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#FDBA74"/>
+    </marker>
+    <style>
+      text { font-family: 'Segoe UI', 'Inter', -apple-system, 'Helvetica Neue', Arial, sans-serif; }
+      .h { font-size: 24px; font-weight: 800; fill: #FFF7ED; }
+      .sub { font-size: 14px; fill: #A8A29E; }
+      .n { font-family: 'Cascadia Code', 'JetBrains Mono', Consolas, Menlo, monospace; font-size: 12px; font-weight: 700; fill: #FDBA74; }
+      .st { font-size: 16px; font-weight: 700; fill: #FFF7ED; }
+      .sd { font-size: 12.5px; fill: #A8A29E; }
+      .k { font-family: 'Cascadia Code', 'JetBrains Mono', Consolas, Menlo, monospace; font-size: 13px; font-weight: 700; }
+      .kd { font-size: 12.5px; fill: #A8A29E; }
+      .flow { stroke-dasharray: 6 8; animation: dash 1.4s linear infinite; }
+      @keyframes dash { to { stroke-dashoffset: -28; } }
+      @media (prefers-reduced-motion: reduce) { .flow { animation: none; } }
+    </style>
+  </defs>
+  <rect width="1280" height="420" rx="22" fill="url(#bg)"/>
+  <rect width="1280" height="420" rx="22" fill="url(#glow)"/>
+  <rect x="0.5" y="0.5" width="1279" height="419" rx="22" fill="none" stroke="#44403C" stroke-opacity="0.8"/>
+  <text x="48" y="54" class="h">Headless Blender → Unity, with a gate between every claim</text>
+  <text x="48" y="78" class="sub">blender -b --factory-startup --python-exit-code 2 -P &lt;stage&gt;.py -- args · one process per stage · the runner stops at the first non-zero exit</text>
+
+  <g transform="translate(48 110)">
+    <g>
+      <rect width="164" height="128" rx="16" fill="#1C1410" stroke="#FB923C" stroke-opacity="0.55"/>
+      <text x="16" y="28" class="n">01</text><text x="16" y="54" class="st">build</text>
+      <text x="16" y="78" class="sd">joints by NAME,</text><text x="16" y="96" class="sd">identity rest pose,</text><text x="16" y="114" class="sd">metres, one frame</text>
+    </g>
+    <path d="M168 64 H194" stroke="#FDBA74" stroke-width="2" class="flow" marker-end="url(#a)"/>
+    <g transform="translate(198 0)">
+      <rect width="164" height="128" rx="16" fill="#1C1410" stroke="#FB923C" stroke-opacity="0.55"/>
+      <text x="16" y="28" class="n">02</text><text x="16" y="54" class="st">bake</text>
+      <text x="16" y="78" class="sd">Cycles full light</text><text x="16" y="96" class="sd">into atlases, gloss</text><text x="16" y="114" class="sd">in alpha (Quest-cheap)</text>
+    </g>
+    <path d="M366 64 H392" stroke="#FDBA74" stroke-width="2" class="flow" marker-end="url(#a)"/>
+    <g transform="translate(396 0)">
+      <rect width="164" height="128" rx="16" fill="#1C1410" stroke="#FB923C" stroke-opacity="0.55"/>
+      <text x="16" y="28" class="n">03</text><text x="16" y="54" class="st">preview</text>
+      <text x="16" y="78" class="sd">Cycles reference +</text><text x="16" y="96" class="sd">unlit + mask per shot,</text><text x="16" y="114" class="sd">cameras.json</text>
+    </g>
+    <path d="M564 64 H590" stroke="#FDBA74" stroke-width="2" class="flow" marker-end="url(#a)"/>
+    <g transform="translate(594 0)">
+      <rect width="164" height="128" rx="16" fill="#1E1A0E" stroke="#FACC15" stroke-opacity="0.6"/>
+      <text x="16" y="28" class="n" fill="#FDE047">04</text><text x="16" y="54" class="st">validate</text>
+      <text x="16" y="78" class="sd">contract, budgets,</text><text x="16" y="96" class="sd">UVs; writes the</text><text x="16" y="114" class="sd">stage's sha256</text>
+    </g>
+    <path d="M762 64 H788" stroke="#FDBA74" stroke-width="2" class="flow" marker-end="url(#a)"/>
+    <g transform="translate(792 0)">
+      <rect width="164" height="128" rx="16" fill="#1C1410" stroke="#FB923C" stroke-opacity="0.55"/>
+      <text x="16" y="28" class="n">05</text><text x="16" y="54" class="st">export</text>
+      <text x="16" y="78" class="sd">REFUSES unless that</text><text x="16" y="96" class="sd">sha256 passed; FBX</text><text x="16" y="114" class="sd">byte-identical reruns</text>
+      <g transform="translate(130 12)">
+        <rect x="-1" y="6" width="20" height="15" rx="3" fill="#FACC15"/>
+        <path d="M3 7 V2 a6 6 0 0 1 12 0 V7" fill="none" stroke="#FACC15" stroke-width="2.4"/>
+      </g>
+    </g>
+    <path d="M960 64 H986" stroke="#FDBA74" stroke-width="2" class="flow" marker-end="url(#a)"/>
+    <g transform="translate(990 0)">
+      <rect width="194" height="128" rx="16" fill="#0E1626" stroke="#22D3EE" stroke-opacity="0.6"/>
+      <text x="16" y="28" class="n" fill="#67E8F9">UNITY</text><text x="16" y="54" class="st">same cameras</text>
+      <text x="16" y="78" class="sd">render each shot in the</text><text x="16" y="96" class="sd">editor, score it against</text><text x="16" y="114" class="sd">the Cycles reference</text>
+    </g>
+  </g>
+
+  <g transform="translate(48 266)">
+    <rect width="1184" height="112" rx="16" fill="#120E0C" stroke="#292524"/>
+    <text x="24" y="32" class="n" fill="#A8A29E">PROVEN ON · the DicomSegVR TrueBeam treatment room (r7)</text>
+    <g transform="translate(24 50)">
+      <text class="k" fill="#FDBA74" y="18">73.7k tris</text><text class="kd" y="40">machine, LOD0 only</text>
+      <text class="k" fill="#FDBA74" x="190" y="18">4096² · ASTC 4x4</text><text class="kd" x="190" y="40">baked atlases</text>
+      <text class="k" fill="#FDE047" x="420" y="18">61 / 61 checks</text><text class="kd" x="420" y="40">validate.json, bound to the stage sha256</text>
+      <text class="k" fill="#67E8F9" x="720" y="18">SSIM 0.90 · ΔE 3.7</text><text class="kd" x="720" y="40">machine region, target ≥ 0.85 / ≤ 6</text>
+      <text class="k" fill="#86EFAC" x="960" y="18">6 / 6 shots</text><text class="kd" x="960" y="40">meet the target</text>
+    </g>
+  </g>
+</svg>

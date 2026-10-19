@@ -1,0 +1,18 @@
+{
+  "name": "smoke",
+  "description": "L1 smoke test template: the app answers, the Operator is attached, a sample loads, no window is stuck on a loading title, the eye view can be captured. Replace the myapp_* tools with your app's. Run: python run_scenario.py smoke.json --prefix myapp --project <project>",
+  "steps": [
+    ["wait", {"tool": "myapp_get_state", "path": "scene", "not_equals": "", "timeout": 120, "every": 1.0,
+              "symptom": "the app never registers its tools: Play Mode did not start, or the OpenXR instance never came up"}],
+    ["openxr_get_session_info", {}],
+    ["openxr_set_head_pose", {"position": [0, 1.6, 0], "orientation": [0, 0, 0, 1], "base_space": "local_floor"}],
+    ["sleep", {"s": 0.5}],
+    ["myapp_load_sample", {"id": "demo"}],
+    ["wait", {"tool": "myapp_get_state", "path": "dataset.ready", "equals": true, "timeout": 90,
+              "symptom": "the demo sample never finishes loading"}],
+    ["assert", {"tool": "myapp_get_state", "path": "windows[*].title", "none_contains": "Downloading",
+                "symptom": "a window title is stuck on 'Downloading 100%' after the load finished"}],
+    ["composite", {"eye": "left", "save": "after_load"}],
+    ["myapp_snapshot", {"width": 1600, "height": 1000, "fov": 90, "name": "smoke_wide"}]
+  ]
+}

@@ -1,0 +1,4 @@
+# fidelity.py only (CPython 3.10+, never Blender's bundled Python). The stage scripts and run_stages.py need nothing.
+numpy>=1.24
+scikit-image>=0.21
+Pillow>=10.0

@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "metavr": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "metavr", "mcp", "server"]
+    },
+    "meta-xr-operator": {
+      "type": "stdio",
+      "command": "${USERPROFILE}\\meta-xr-operator\\meta-xr-operator-mcp-proxy.exe",
+      "args": []
+    }
+  }
+}

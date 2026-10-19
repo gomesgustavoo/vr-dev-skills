@@ -1,0 +1,57 @@
+{
+  "skill_name": "unity-quest-sim-loop",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "My Quest app's editor is running in Play Mode on the Meta XR Simulator. I need to know for sure whether the red warning highlight on the selected object is actually drawn in what the headset sees. Give me evidence, not a guess. Don't stop Play Mode, don't restart the editor and don't edit any project files.",
+      "expected_output": "A PNG of the eye view (narrow fov on the object, ideally isolated) plus a short report that backs the picture with an app-state answer (renderer facts: active, visible, red colour from the property block, opaque/transparent queue) and, where colour matters, an ON/OFF/ON pixel diff.",
+      "files": [],
+      "assertions": [
+        "Saved at least one PNG of the headset eye view to outputs",
+        "Backed the picture with an app-state query about the highlight renderers (e.g. <prefix>_debug_renderers), not the image alone",
+        "Report gives a clear verdict on whether the highlight renders red, citing renderer facts or an imgdiff.py result",
+        "Left Play Mode running: no stop, no editor restart, no project file edits",
+        "Restored any app state it changed (visibility, poses) before finishing"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "something in my unity quest editor session is spamming the console. list the distinct errors and warnings since play mode started, how many times each, and tell me which ones are ours (Assets/Scripts) vs meta sdk noise we can ignore. dont change anything",
+      "expected_output": "A deduplicated table of errors/warnings with counts and origin file, scoped to the current Play session (logscan.py with a Play Mode marker), classified project vs Meta/Unity SDK, with a note on any project-owned ones worth fixing.",
+      "files": [],
+      "assertions": [
+        "Lists distinct errors/warnings deduplicated, with a count for each",
+        "Scopes the list to the current Play session rather than the whole log",
+        "Classifies each entry as project code (Assets/Scripts) or Meta/Unity SDK",
+        "Attributes MRUKGlobalContext / MetaXRFeature / OVRPlugin messages to the Meta SDK, not to the project",
+        "Made no changes (no stop, no restart, no edits)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I want this simulator + XR Operator test loop in my other Quest project (Unity 6, Meta XR SDK 203, Assembly-CSharp, no asmdefs). Don't touch that project yet - write me the plan (setup-plan.md) and the adapted C# files it needs, ready to drop in, into the outputs folder. Flag anything that blocks it.",
+      "expected_output": "setup-plan.md with the machine + project steps and verification; DevXr.cs / DevRemote.cs / AgentTools.cs / AppAgentTools.cs adapted with the project's namespace, menu, scene and tool prefix; the SDK 203 path explained (no MetaXROperatorExternalTool: the Operator layer copy loaded by environment variable, the app's tools through DevRemote); no SDK upgrade proposed as a requirement.",
+      "files": [],
+      "assertions": [
+        "Explains that SDK 203 has no MetaXROperatorExternalTool and uses the layer copy + DevRemote instead of requiring an SDK upgrade",
+        "Adapted C# files replace every __NS__ / __MENU__ / __SCENE__ / __PREFIX__ placeholder",
+        "Dev-only code is guarded by #if UNITY_EDITOR || DEVELOPMENT_BUILD, not an asmdef versionDefine that Assembly-CSharp never defines",
+        "setup-plan.md covers simulator install, the proxy and layer copy, the Standalone OpenXR loader, DevRemote, app tool registration, and a verification step (editor-play.ps1, op.py list, a snapshot)",
+        "Did not modify the target project"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Turn the check you just did by hand (load the sample, wait for it, close the viewer with a controller click, confirm it closed) into something I can re-run after every change.",
+      "expected_output": "A scenario JSON for scripts/run_scenario.py with deterministic setup, a wait on the app's state, an aim step + simulated trigger, asserts with symptoms written as the user would see them, and a restore at the end; plus the command line to run it and the result of one run.",
+      "files": [],
+      "assertions": [
+        "Wrote a run_scenario.py scenario file (steps with wait / assert / aim), not a one-off script",
+        "Every assert and wait carries a symptom that describes what the user would see in the headset",
+        "Clicks through the controller ray (aim + openxr_set_controller_input), not only by invoking the handler",
+        "Restores the state it changed at the end",
+        "Ran it once and reported PASS/FAIL with the runner's output"
+      ]
+    }
+  ]
+}

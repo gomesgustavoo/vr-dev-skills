@@ -1,0 +1,19 @@
+{
+  "name": "ray_click",
+  "description": "Template: click a panel button THROUGH the controller ray (not by invoking its handler), and prove it with state before and after. The app needs <prefix>_ui_point {name} -> {position, normal} and <prefix>_get_input_state -> {left|right: {rayOrigin, rayDirection, hovered, onUi}}. If this fails while <prefix>_click_widget succeeds, the bug is in the aim, the raycast or the event path, not the handler.",
+  "steps": [
+    ["myapp_open_tab", {"id": "settings"}],
+    ["wait", {"tool": "myapp_get_state", "path": "windows[id=settings].open", "equals": true, "timeout": 10,
+              "symptom": "(setup) the Settings window does not open"}],
+    ["capture", {"tool": "myapp_get_state", "path": "settings.clickCount", "as": "clicks0"}],
+    ["aim", {"hand": "right", "target": {"tool": "myapp_ui_point", "args": {"name": "ApplyButton"}},
+             "standoff": 0.4, "offset": [0.1, -0.15, 0], "expect_on_ui": true, "expect_hovered": "Settings",
+             "symptom": "the right controller's ray cannot be brought onto the Apply button"}],
+    ["sleep", {"s": 0.3}],
+    ["openxr_set_controller_input", {"hand": "right", "component": "Trigger", "value": 1, "auto_release": true, "hold_duration": 0.15}],
+    ["sleep", {"s": 0.5}],
+    ["assert", {"tool": "myapp_get_state", "path": "settings.clickCount", "greater_than": {"var": "clicks0"},
+                "symptom": "pulling the trigger with the ray on Apply does nothing"}],
+    ["myapp_close_tab", {"id": "settings"}]
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "hello-room",
+  "out": "out",
+  "blender": {"min_version": "4.2", "pin": "5.2.2", "policy": "warn"},
+  "stages": [
+    {"name": "build", "script": "01_build.py"},
+    {"name": "bake", "script": "02_bake.py"},
+    {"name": "preview", "script": "03_preview.py"},
+    {"name": "fidelity", "python": true, "script": "../../scripts/fidelity.py",
+     "args": ["--ref", "{out}/previews", "--test", "{out}/previews_unlit", "--mask", "{out}/previews_mask",
+              "--cameras", "{out}/cameras.json", "--regions", "machine=gb,scene=rgb", "--gate", "machine",
+              "--min-ssim", "0.85", "--max-de", "6.0",
+              "--json", "{out}/fidelity.json", "--montage", "{out}/previews_compare"]},
+    {"name": "validate", "script": "04_validate.py"},
+    {"name": "export", "script": "05_export.py", "quick_args": ["--allow-quick"]}
+  ]
+}

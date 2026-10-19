@@ -1,0 +1,12 @@
+[
+  ["device", "Device Model '"],
+  ["unity", "Initialize engine version"],
+  ["render path", "\\[MyApp\\] render path"],
+  ["eye buffer", "\\[MyApp\\] eye buffer \\d+x\\d+"],
+  ["font", "\\[MyApp\\] font '"],
+  ["agent tools", "\\[MyApp\\] (agent tools registered|operator tools|command channel)"],
+  ["data loaded", "\\[MyApp\\] (loaded|load failed)"],
+  ["gpu self-test", "\\[MyApp\\] gpu probe"],
+  ["compositor", "\\[MyApp\\] (compositor|layers)"],
+  ["perf level", "\\[MyApp\\] perf level|SustainedHigh"]
+]
