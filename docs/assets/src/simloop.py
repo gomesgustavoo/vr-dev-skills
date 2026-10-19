@@ -64,7 +64,7 @@ def arrow(x1, y1, x2, y2, color, label=None, label_side=-1):
 
 # ---- heading
 t("The simulator loop", "inter-700", 28, M, 70, T1, tracking=-0.4)
-t("Your app runs in Unity Play Mode on the Meta XR Simulator. Claude Code reads its state, drives its input, and reads it again.",
+t("Your app runs in Unity Play Mode on the Meta XR Simulator. Your agent reads its state, drives its input, and reads it again.",
   "inter-400", 15.5, M, 100, T3)
 
 # ---- the moving dot runs under the cards: visible on the connectors, hidden while it passes through a component
@@ -74,9 +74,9 @@ under.append('<g class="runner"><circle r="8" fill="%s" fill-opacity="0.2"/><cir
 
 # ---- agent (spans both rows)
 el.append(card(AX, RA, AW, RB + RH - RA))
-el.append(icon("si-claude", AX + 22, RA + 22, 24, CLAUDE))
-t("Claude Code", "inter-600", 17, AX + 56, RA + 41, T1)
-t("+ unity-quest-sim-loop", "inter-400", 13, AX + 22, RA + 74, T3)
+el.append(icon("lu-square-terminal", AX + 22, RA + 22, 24, T1, stroke=1.8))
+t("Your agent", "inter-600", 17, AX + 56, RA + 41, T1)
+t("Claude Code, Codex, Gemini CLI...", "inter-400", 13, AX + 22, RA + 74, T3)
 scripts = [("op.py", "run_scenario.py"), ("aimfix.py", "panelshot.py"), ("imgdiff.py", "logscan.py"), ("reload.py", "quickcheck.ps1")]
 for i, (a, b) in enumerate(scripts):
     y = RA + 98 + i * 40
@@ -155,7 +155,7 @@ for i, p in enumerate(parts):
 
 svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-labelledby="t d">
 <title id="t">The simulator loop</title>
-<desc id="d">Claude Code drives a Unity Quest app running in editor Play Mode on the Meta XR Simulator. It injects head, controller and button input through the Meta XR Operator (MCP on port 8720), and reads the app's own state through DevRemote (HTTP on port 8731). Every check is ask, act, ask again, and each finding is pinned with a headless gate.</desc>
+<desc id="d">A coding agent drives a Unity Quest app running in editor Play Mode on the Meta XR Simulator. It injects head, controller and button input through the Meta XR Operator (MCP on port 8720), and reads the app's own state through DevRemote (HTTP on port 8731). Every check is ask, act, ask again, and each finding is pinned with a headless gate.</desc>
 <defs>{GLYPHS}
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#11161D"/><stop offset="1" stop-color="#0B0E13"/></linearGradient>
 <style>@media (prefers-reduced-motion: reduce) {{ .runner {{ display: none; }} }}</style>

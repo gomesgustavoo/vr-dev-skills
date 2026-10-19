@@ -21,36 +21,38 @@ question better than memory or guesswork:
 | packaging | command | notes |
 |---|---|---|
 | **npx `metavr`** (recommended) | `npx -y metavr mcp server` | cross-platform, newest (v1.8: 38 tools incl. `perf_session`, `perf_memory_snapshot`) |
-| Meta's Claude Code plugin | `/plugin marketplace add meta-quest/agentic-tools` then `/plugin install meta-vr@meta-quest` | the same npx server + Meta's own skills (`hz-*`) |
+| Meta's agentic-tools | [github.com/meta-quest/agentic-tools](https://github.com/meta-quest/agentic-tools) (a Claude Code plugin, also packaged for other agents) | the same npx server + Meta's own skills (`hz-*`) |
 | Meta Quest Developer Hub | `C:\Program Files\Meta Quest Developer Hub\resources\bin\hzos-dev-mcp.exe` | Windows, ships with MQDH, lags behind (v1.6: 36 tools) |
 
 Register **one** of them. Two copies give every tool twice, under two prefixes, and nothing
 else.
 
+It is a plain stdio server (`npx -y metavr mcp server`), so every agent registers it the same way:
 ```bash
-claude mcp add --scope user metavr -- npx -y metavr mcp server
-# native Windows, if npx does not start from Claude Code:
-claude mcp add --scope user metavr -- cmd /c npx -y metavr mcp server
+claude mcp add --scope user metavr -- npx -y metavr mcp server      # Claude Code
+codex mcp add metavr -- npx -y metavr mcp server                    # Codex (~/.codex/config.toml)
 ```
-Or commit it to the project's `.mcp.json` (see the repo's `mcp/project.mcp.json`) so every
-session in that project has it.
+Other agents: add a stdio MCP server with command `npx` and args `-y metavr mcp server` in their
+MCP settings. On native Windows, if `npx` does not start from the agent, use `cmd /c npx ...`.
+For a whole project, commit the config the agent reads (`.mcp.json` for Claude Code, see the
+repo's `mcp/project.mcp.json`; `.codex/config.toml` for Codex).
 
 **Check the connection, don't assume it:**
 ```bash
-claude mcp list                                     # each server: Connected / failed
+claude mcp list   |   codex mcp list                # the agent's own view: Connected / failed
 python <skill>/scripts/mcp_probe.py                 # starts the server itself, lists tools, times a docs query
 python <skill>/scripts/mcp_probe.py --server hzos   # the MQDH packaging instead
 ```
 `mcp_probe.py` speaks MCP over stdio directly, so it tells "the server is broken" apart from
-"Claude Code didn't load it". It prints the server version, the tool count, the tools missing
+"the agent didn't load it". It prints the server version, the tool count, the tools missing
 from the other packaging, and how long one `vr_docs_search` took.
 
-Inside a session the tools appear as `mcp__metavr__*`, `mcp__plugin_meta-vr_metavr__*` or
-`mcp__hzos-dev-mcp__*`. If they are deferred, load them with ToolSearch
-(`select:<full tool name>,...`, or a keyword search such as `vr_docs_search`) before calling.
-Use whichever prefix is present; the tool names after the prefix are identical.
+Each agent prefixes MCP tools with the server name in its own way (Claude Code:
+`mcp__metavr__vr_docs_search`); the tool names after the prefix are the same everywhere. If the
+agent loads MCP tools lazily (Claude Code's ToolSearch, for example), load them before calling.
+Use whichever server is present.
 
-Known noise: `claude mcp list` prints many `unknown format "uint" ignored in schema` lines for
+Known noise: Claude Code's `claude mcp list` prints many `unknown format "uint" ignored in schema` lines for
 this server's perf tools. They are JSON-schema warnings about output types, not failures.
 
 ## 2. Docs and APIs: verify before you write

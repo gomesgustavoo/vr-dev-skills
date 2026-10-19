@@ -90,13 +90,13 @@ every Unity editor, so if the user may be looking at it, say so before you do.
 
 ## 3. Drive it: ask → act → ask
 
-Use the `mcp__meta-xr-operator__*` tools if this session loaded them (a project
-`.mcp.json` registers them). Otherwise use the bundled client, which works from any
-directory:
+Use the Operator's MCP tools directly if your agent has the `meta-xr-operator` server
+registered (references/setup.md). Otherwise use the bundled client, which works from any
+directory and in any agent:
 ```bash
 python op.py call myapp_get_state
 python op.py call openxr_set_controller_input @press.json   # args from a file: no quoting fights in PowerShell/bash
-python op.py batch scenario.json --out <scratchpad>/shots   # [[tool, args], ["sleep", {"s": 0.4}], ...] in one session
+python op.py batch scenario.json --out <tmp>/shots   # [[tool, args], ["sleep", {"s": 0.4}], ...] in one session
 ```
 Shape every check the same way:
 1. Read the state with an app tool.
@@ -196,7 +196,7 @@ Three ways to capture, best first:
   centre eye offscreen with the real camera and skybox, at any size and field of view. A
   narrow fov (18–30°) makes a close-up without moving anything. In the editor the PNG lands
   in `<project>/Temp/<prefix>-snapshots/`. Unity wipes `Temp` on every launch, so copy
-  keepers to the scratchpad.
+  keepers somewhere outside the project.
 - **`scripts/grab-window.ps1 -Title "Meta XR Simulator" -Out <path>`** captures a window
   with PrintWindow.
 
@@ -207,8 +207,8 @@ out) and leaves the controllers re-seeded. A panel drawn as a compositor layer i
 the app snapshot: capture composited, or switch the compositor path off.
 
 Open the PNG with Read and look critically. Is every structure the colour it should be? Are
-panels overlapping? Are controllers textured? Is the floor there? Send it with
-SendUserFile when the user needs to see it.
+panels overlapping? Are controllers textured? Is the floor there? Attach it to
+your reply when the user needs to see it.
 
 **To prove one object's colour or visibility, diff instead of eyeballing.**
 1. Capture the frame with the object shown.

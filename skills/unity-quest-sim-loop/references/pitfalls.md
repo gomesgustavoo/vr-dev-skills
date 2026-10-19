@@ -93,7 +93,7 @@ the cause and the fix.
   - Check `C:\Program Files\MetaXRSimulator\` and `%APPDATA%\metavr\tools\xrsim` before
     blaming the project.
 - **Unity wipes `<project>/Temp` at every launch.** Snapshots written there vanish, so
-  copy them to the scratchpad right away.
+  copy them somewhere outside the project right away.
 - **A background editor doesn't import changed files.** Anything edited from outside
   (shaders included) sits unimported until it gets focus. POST `/refresh`.
 - **`delayCall` doesn't survive a domain reload.** Opening a scene can trigger one, which

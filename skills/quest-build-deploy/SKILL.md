@@ -87,7 +87,7 @@ Install and launch prove it boots. The behaviour needs either the agent driving 
 
 ```bash
 python <skill>/scripts/quest_deploy.py readout --project <project> --minutes 3 --relaunch \
-       --questions <project>/tools/device_questions.json --out <scratchpad>/readout.txt
+       --questions <project>/tools/device_questions.json --out <tmp>/readout.txt
 ```
 It waits until the headset is worn, grows and clears the log buffer, relaunches, streams
 `Unity`, `VrApi`, `AgenticXR` and crash tags for the window (stop early by creating

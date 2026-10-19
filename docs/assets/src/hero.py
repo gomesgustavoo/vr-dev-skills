@@ -5,50 +5,63 @@ import sys
 from svgkit import icon, text, font, defs
 
 OUT = sys.argv[1] if len(sys.argv) > 1 else "hero.svg"
-W, H = 1280, 472
+W, H = 1280, 508
 
 # palette (GitHub dark + one accent)
 T1, T2, T3, MUTED = "#F0F6FC", "#C9D1D9", "#8B949E", "#6E7681"
 CARD, LINE, LINE2 = "#161B22", "#30363D", "#21262D"
 ACCENT = "#4493F8"
-CLAUDE, META, BLENDER, UNITY = "#D97757", "#0A84FF", "#E87D0D", "#FFFFFF"
+META, BLENDER, UNITY = "#0A84FF", "#E87D0D", "#FFFFFF"
 
 el = []
 X0 = 72
 
-# ---- eyebrow
-el.append(icon("si-claude", X0, 62, 18, CLAUDE))
-s, w = text("Claude Code plugin", "inter-600", 14, X0 + 28, 76, T3, tracking=0.2); el.append(s)
-s, w2 = text("·", "inter-600", 14, X0 + 28 + w + 9, 76, MUTED); el.append(s)
-s, _ = text("MIT licensed", "inter-500", 14, X0 + 28 + w + 9 + w2 + 9, 76, T3, tracking=0.2); el.append(s)
 
-# ---- title, subtitle, proof line
+def row(label, y_label, items, base, mono=None, tail=None):
+    """A small caps label, then icon + name pairs on one baseline."""
+    s, _ = text(label, "inter-600", 11, X0, y_label, MUTED, tracking=1.4); el.append(s)
+    x = X0
+    for ic, col, name in items:
+        el.append(icon(ic, x, base - 15.5, 20, mono or col, stroke=1.6))
+        s, lw = text(name, "inter-500", 15, x + 28, base, T2); el.append(s)
+        x += 28 + lw + 25
+    if tail:
+        s, _ = text(tail, "inter-400", 15, x - 4, base, T3); el.append(s)
+
+
+# ---- eyebrow
+el.append(icon("lu-square-terminal", X0, 62, 18, T3, stroke=1.7))
+x = X0 + 28
+for i, part in enumerate(("Agent skills", "SKILL.md open standard", "MIT")):
+    if i:
+        s, dw = text("·", "inter-600", 14, x + 9, 76, MUTED); el.append(s)
+        x += 9 + dw + 9
+    s, w = text(part, "inter-600" if i == 0 else "inter-500", 14, x, 76, T3, tracking=0.2); el.append(s)
+    x += w
+
+# ---- title, subtitle
 s, _ = text("vr-dev-skills", "inter-700", 64, X0 - 3, 150, T1, tracking=-1.8); el.append(s)
 s, sw1 = text("Develop, simulate, test and ship Meta Quest apps", "inter-500", 23, X0, 198, T2, tracking=-0.2); el.append(s)
-s, sw2 = text("with Claude Code. Simulator first, headset last.", "inter-500", 23, X0, 229, T2, tracking=-0.2); el.append(s)
-s, _ = text("Skills, scripts and C# templates proven on a production Quest app.", "inter-400", 16, X0, 268, T3); el.append(s)
+s, sw2 = text("with your coding agent. Simulator first, headset last.", "inter-500", 23, X0, 229, T2, tracking=-0.2); el.append(s)
 
-# ---- works with: real logos, one baseline
-s, _ = text("WORKS WITH", "inter-600", 11, X0, 318, MUTED, tracking=1.4); el.append(s)
-items = [("si-unity", UNITY, "Unity"), ("tb-cardboards", T2, "Meta XR Simulator"),
-         ("si-meta", META, "Horizon OS MCP"), ("si-blender", BLENDER, "Blender")]
-x, base = X0, 350
-for ic, col, label in items:
-    el.append(icon(ic, x, base - 15.5, 20, col, stroke=1.6))
-    s, lw = text(label, "inter-500", 15, x + 28, base, T2); el.append(s)
-    x += 28 + lw + 30
+# ---- what it works with, and where it runs (agents in one neutral tone: no single vendor in front)
+row("WORKS WITH", 284, [("si-unity", UNITY, "Unity"), ("tb-cardboards", T2, "Meta XR Simulator"),
+                        ("si-meta", META, "Horizon OS MCP"), ("si-blender", BLENDER, "Blender")], 316)
+row("RUNS IN", 358, [("si-claude", None, "Claude Code"), ("si-openai", None, "Codex"),
+                     ("si-googlegemini", None, "Gemini CLI"), ("si-githubcopilot", None, "Copilot")], 390,
+    mono=T3, tail="+ any SKILL.md agent")
 
-# ---- install command
-cmd = "/plugin install vr-dev@vr-dev-skills"
+# ---- install command: the open installer, any agent
+cmd = "npx skills add gomesgustavoo/vr-dev-skills"
 cw = font("jbm-400").width("$ " + cmd, 15)
-py, ph = 384, 42
+py, ph = 424, 42
 el.append('<rect x="%g" y="%g" width="%g" height="%g" rx="10" fill="%s" stroke="%s"/>' % (X0, py, cw + 56, ph, CARD, LINE))
 s, dw = text("$ ", "jbm-400", 15, X0 + 18, py + 26, MUTED); el.append(s)
 s, _ = text(cmd, "jbm-400", 15, X0 + 18 + dw, py + 26, T1); el.append(s)
 el.append('<rect class="caret" x="%g" y="%g" width="8" height="17" rx="1" fill="%s"/>' % (X0 + 18 + cw + 6, py + 12.5, ACCENT))
 
-# ---- the loop: Develop -> Simulate -> Test -> Ship, Claude Code in the middle
-cx, cy, rx, ry = 970, 236, 150, 126
+# ---- the loop: Develop -> Simulate -> Test -> Ship, the agent in the middle
+cx, cy, rx, ry = 976, H / 2, 150, 126
 track = "M %g %g A %g %g 0 0 1 %g %g A %g %g 0 0 1 %g %g" % (cx, cy - ry, rx, ry, cx, cy + ry, rx, ry, cx, cy - ry)
 el.append('<rect x="700" y="0" width="580" height="%d" fill="url(#dots)" mask="url(#fade)"/>' % H)
 el.append('<path d="%s" fill="none" stroke="%s" stroke-width="1.5"/>' % (track, LINE))
@@ -81,12 +94,12 @@ for i, (name, sub, ic, (mx, my)) in enumerate(steps):
     el.append("</g>")
 
 el.append('<circle cx="%g" cy="%g" r="51" fill="%s" stroke="%s" stroke-width="1.2"/>' % (cx, cy, CARD, LINE))
-el.append(icon("si-claude", cx - 15, cy - 27, 30, CLAUDE))
-s, _ = text("Claude Code", "inter-600", 12.5, cx, cy + 25, T2, anchor="middle"); el.append(s)
+el.append(icon("lu-square-terminal", cx - 14, cy - 27, 28, T1, stroke=1.8))
+s, _ = text("Your agent", "inter-600", 12.5, cx, cy + 25, T2, anchor="middle"); el.append(s)
 
 svg = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-labelledby="t d">
 <title id="t">vr-dev-skills</title>
-<desc id="d">Claude Code plugin for Meta Quest development: develop in Unity, simulate in the Meta XR Simulator, test with scenarios and gates, ship to Quest 3 and 3S. Works with Unity, the Meta XR Simulator, the Horizon OS MCP and Blender. Install: /plugin install vr-dev@vr-dev-skills</desc>
+<desc id="d">Agent skills for Meta Quest development, in the open SKILL.md format: develop in Unity, simulate in the Meta XR Simulator, test with scenarios and gates, ship to Quest 3 and 3S. Works with Unity, the Meta XR Simulator, the Horizon OS MCP and Blender. Runs in Claude Code, Codex, Gemini CLI, GitHub Copilot and any agent that reads SKILL.md. Install: npx skills add gomesgustavoo/vr-dev-skills</desc>
 <defs>{GLYPHS}
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#11161D"/><stop offset="1" stop-color="#0B0E13"/></linearGradient>
 <radialGradient id="fadeg" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>

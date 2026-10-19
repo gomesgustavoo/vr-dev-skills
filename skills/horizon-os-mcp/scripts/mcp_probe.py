@@ -1,5 +1,5 @@
 """Probe Meta's Horizon OS dev MCP server directly over stdio: does it start, which version, which
-tools, and how fast does a docs query answer. Independent of Claude Code, so it separates "the server
+tools, and how fast does a docs query answer. Independent of any agent, so it separates "the server
 is broken" from "the session didn't load it".
 
     python mcp_probe.py                         # npx -y metavr mcp server (the recommended packaging)

@@ -1,4 +1,4 @@
-# Quest dev loop (paste into your Unity project's CLAUDE.md and fill in the <...>)
+# Quest dev loop (paste into your Unity project's AGENTS.md or CLAUDE.md and fill in the <...>)
 
 ## Workflow: four loops, cheapest first
 
@@ -13,9 +13,10 @@ again.
 | **L2** | `unity_build.ps1 -Project . -Dev`, `quest_deploy.py deploy Build/<App>-dev.apk --project .` | ~4 min + a worn headset | real tracking, hands, Adreno GPU, performance |
 | **L3** | `unity_build.ps1 -Project .` + the smoke checklist in `docs/SMOKE.md` | ~4 min | the release APK (no Operator layer, no dev tools) |
 
-Skills: `vr-dev:unity-quest-sim-loop` (L0-L2), `vr-dev:quest-build-deploy` (builds,
-sideload, device readout), `vr-dev:horizon-os-mcp` (Meta docs, device, Perfetto),
-`vr-dev:blender-cli-vr-assets` (generated 3D assets).
+Skills: `unity-quest-sim-loop` (L0-L2), `quest-build-deploy` (builds, sideload, device
+readout), `horizon-os-mcp` (Meta docs, device, Perfetto), `blender-cli-vr-assets` (generated 3D
+assets). Install: `npx skills add gomesgustavoo/vr-dev-skills`. With the Claude Code plugin the
+names carry a `vr-dev:` prefix.
 
 ## Project facts the agent needs
 

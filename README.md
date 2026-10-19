@@ -1,9 +1,9 @@
 <p align="center">
-  <img src="docs/assets/hero.svg" alt="vr-dev-skills: simulator-first Meta Quest development with Claude Code" width="100%">
+  <img src="docs/assets/hero.svg" alt="vr-dev-skills: simulator-first Meta Quest development with your coding agent" width="100%">
 </p>
 
 <p align="center">
-  <a href="#quick-start"><img src="https://img.shields.io/badge/Claude_Code-plugin-D97757?style=flat-square&logo=claude&logoColor=white&labelColor=161B22" alt="Claude Code plugin"></a>
+  <a href="https://agentskills.io"><img src="https://img.shields.io/badge/Agent_Skills-SKILL.md-8B949E?style=flat-square&labelColor=161B22" alt="Agent Skills (SKILL.md open standard)"></a>
   <img src="https://img.shields.io/badge/Meta_XR_SDK-203_%7C_205-0A84FF?style=flat-square&logo=meta&logoColor=white&labelColor=161B22" alt="Meta XR SDK 203 | 205">
   <img src="https://img.shields.io/badge/Unity-6-C9D1D9?style=flat-square&logo=unity&logoColor=white&labelColor=161B22" alt="Unity 6">
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-3FB950?style=flat-square&labelColor=161B22" alt="MIT license"></a>
@@ -53,8 +53,8 @@ compositor, thermals and performance.
 The radiotherapy mode of [DicomSegVR](https://dicomsegvr.com) switches from passthrough AR into a
 virtual linac vault, with the machine moving as the treatment plan says. The room was generated
 by headless Blender stages, checked against its Cycles reference inside Unity, and its
-interactions (machine panel, collision warning, teleport, lasers) were developed and regression-tested
-in the Meta XR Simulator before anyone put on a headset.
+interactions (plan-following motion, machine panel, collision warning, teleport, lasers) were developed
+and regression-tested in the Meta XR Simulator before anyone put on a headset.
 
 <table>
   <tr>
@@ -65,11 +65,11 @@ in the Meta XR Simulator before anyone put on a headset.
   </tr>
   <tr>
     <td width="50%"><img src="docs/assets/showcase/truebeam-cycles.jpg" alt="The generated treatment room rendered in Blender Cycles"></td>
-    <td width="50%"><img src="docs/assets/showcase/sim-collision-qa.jpg" alt="The collision warning painting the touching machine parts red, captured in the simulator"></td>
+    <td width="50%"><img src="docs/assets/showcase/truebeam-arc.webp" alt="Animation: the TrueBeam gantry rotating through arc 1 of the demo treatment plan, with the imaging arms out, in the Meta XR Simulator"></td>
   </tr>
   <tr>
     <td align="center"><sub><b>Headless Blender</b> · the generated 6.2 × 6.2 m vault, Cycles preview</sub></td>
-    <td align="center"><sub><b>XR Simulator</b> · the mesh-accurate collision warning, asserted by a scenario</sub></td>
+    <td align="center"><sub><b>XR Simulator</b> · the TrueBeam following arc 1 of the demo plan, filmed control point by control point by a scenario</sub></td>
   </tr>
   <tr>
     <td width="50%"><img src="docs/assets/showcase/sim-composited-panel.jpg" alt="The composited eye image from the XR Simulator: the machine console panel over the room"></td>
@@ -89,7 +89,7 @@ in the Meta XR Simulator before anyone put on a headset.
 
 ## How the loop works
 
-<p align="center"><img src="docs/assets/sim-loop.svg" alt="The simulator loop: Claude Code injects input through the Meta XR Operator and reads app state through DevRemote, while the app runs in Unity Play Mode on the Meta XR Simulator" width="100%"></p>
+<p align="center"><img src="docs/assets/sim-loop.svg" alt="The simulator loop: the agent injects input through the Meta XR Operator and reads app state through DevRemote, while the app runs in Unity Play Mode on the Meta XR Simulator" width="100%"></p>
 
 One check, as the agent actually runs it: click a button **through the controller ray** and prove
 it with state, not with a picture.
@@ -97,7 +97,7 @@ it with state, not with a picture.
 ```mermaid
 sequenceDiagram
     autonumber
-    participant C as Claude Code
+    participant C as Your agent
     participant D as DevRemote :8731
     participant O as XR Operator :8720
     participant A as Quest app (Play Mode, XR Simulator)
@@ -131,40 +131,53 @@ comparison ends most "the button is dead" investigations.
 | [**quest-build-deploy**](skills/quest-build-deploy/SKILL.md) | build, deploy, sideload, "test it on the device" | `QuestBuild.cs` (CLI entry points + `[QuestBuildGate]` gates that refuse the build), `unity_build.ps1` (waits on the Unity process, never on a guessed log line), `quest_deploy.py` (install, launch, crash check, worn-headset readout with a VrApi summary) |
 | [**blender-cli-vr-assets**](skills/blender-cli-vr-assets/SKILL.md) | generating or fixing 3D assets for Unity/Quest with headless Blender | one process per stage, a validate gate bound to the stage's sha256, deterministic FBX export, baked atlases for Quest, Cycles previews as the fidelity reference, an SSIM/ΔE scorer, and a runnable example pipeline |
 
-Each skill is a folder with a `SKILL.md` (what Claude reads first), `scripts/`, `references/` and
+Each skill is a folder with a `SKILL.md` (what the agent reads first), `scripts/`, `references/` and
 `assets/`. They work alone and better together; the toolchain above is how they hand off.
 
 ## Quick start
 
-### 1. Install the plugin
+### 1. Install the skills
 
-In Claude Code:
+The skills are plain [Agent Skills](https://agentskills.io) (a folder with a `SKILL.md`), so they
+work in any agent that reads that format: Codex, Claude Code, Gemini CLI, GitHub Copilot, Cursor,
+OpenCode and many more. One command installs them into the agents it finds on your machine:
+
+```bash
+npx skills add gomesgustavoo/vr-dev-skills        # this project; add -g for every project
+```
+
+Pick skills and agents in the prompt, or pass them: `-s unity-quest-sim-loop -a codex -a claude-code`.
+Agents load a skill on their own when your request matches its description; you can also name it
+(`$unity-quest-sim-loop` in Codex, `/unity-quest-sim-loop` in Claude Code).
+
+<details>
+<summary><b>Claude Code plugin</b> (marketplace install, updates with the repo)</summary>
 
 ```text
 /plugin marketplace add gomesgustavoo/vr-dev-skills
 /plugin install vr-dev@vr-dev-skills
 ```
-
-Recommended alongside it: Meta's own plugin, which brings the Horizon OS MCP server and Meta's
-`hz-*` skills.
-
-```text
-/plugin marketplace add meta-quest/agentic-tools
-/plugin install meta-vr@meta-quest
-```
+Plugin skills are namespaced: `/vr-dev:unity-quest-sim-loop`.
+</details>
 
 <details>
-<summary><b>Prefer plain skill folders?</b> Copy them into <code>~/.claude/skills</code></summary>
+<summary><b>Codex by hand</b>, or any agent without Node</summary>
+
+Codex reads skills from `.agents/skills/` (in the project, up to the repo root) and from
+`~/.agents/skills/`. Copy the folders there, or let the install script do it for one or more agents:
 
 ```bash
-git clone https://github.com/gomesgustavoo/vr-dev-skills
-cd vr-dev-skills
-./tools/install.sh                      # macOS / Linux / Git Bash
-powershell -File tools\install.ps1      # Windows PowerShell
+git clone https://github.com/gomesgustavoo/vr-dev-skills && cd vr-dev-skills
+./tools/install.sh --agent codex,claude-code              # macOS / Linux / Git Bash
+powershell -File tools\install.ps1 -Agent codex,cursor    # Windows
+./tools/install.sh --agent codex --project ~/src/MyQuestApp   # into one project
 ```
-Copied skills are invoked without the plugin prefix (`/unity-quest-sim-loop`) and don't update
-with the marketplace.
+Agents: `universal` (`~/.agents/skills`), `codex`, `claude-code`, `cursor`, `gemini-cli`,
+`github-copilot`, `opencode`.
 </details>
+
+Recommended alongside: Meta's own [agentic-tools](https://github.com/meta-quest/agentic-tools),
+with Meta's `hz-*` skills and the Horizon OS MCP server.
 
 ### 2. Set up the machine (once)
 
@@ -172,16 +185,16 @@ with the marketplace.
 |---|---|
 | Meta XR Simulator | `npx -y metavr tools install xrsim` |
 | Meta XR Operator proxy + layer | copy them out of any Meta XR Core SDK 205+ package: [setup.md](skills/unity-quest-sim-loop/references/setup.md#machine-once) (works for SDK 203 projects too) |
-| Horizon OS MCP | `claude mcp add --scope user metavr -- npx -y metavr mcp server` (or Meta's plugin above), then `python skills/horizon-os-mcp/scripts/mcp_probe.py` |
+| Horizon OS MCP | a stdio server: `codex mcp add metavr -- npx -y metavr mcp server`, or `claude mcp add --scope user metavr -- npx -y metavr mcp server`, or command `npx` + args `-y metavr mcp server` in your agent's MCP settings; then `python skills/horizon-os-mcp/scripts/mcp_probe.py` |
 | Python 3.10+, Node 18+, adb | adb from Android platform-tools or the Unity Android module |
 | Blender (for assets) | a portable Blender 4.2+ LTS; point `BLENDER` at its executable |
 
-The [`mcp/`](mcp/README.md) folder has a ready `.mcp.json` for a Unity project (Horizon OS MCP +
-the Operator, no personal paths).
+The [`mcp/`](mcp/README.md) folder has ready project configs (Horizon OS MCP + the Operator, no
+personal paths) for Claude Code (`.mcp.json`) and Codex (`.codex/config.toml`).
 
 ### 3. Set up a project (once)
 
-Ask Claude in your Unity project:
+Ask your agent, in your Unity project:
 
 ```text
 Set up the simulator loop in this project.
@@ -191,8 +204,9 @@ It follows [setup.md](skills/unity-quest-sim-loop/references/setup.md): copies t
 AgentTools templates with your namespace, scene and tool prefix, compiles them with the lock-free
 check, starts Play Mode on the simulator and proves the tools answer. Then the important part, the
 app's own tools: one that returns the real state, and one per thing the agent must do without a
-hand. Paste [`templates/CLAUDE.quest.md`](templates/CLAUDE.quest.md) into your project's `CLAUDE.md`
-so every session knows the loops.
+hand. Paste [`templates/AGENTS.quest.md`](templates/AGENTS.quest.md) into your project's
+`AGENTS.md` (Codex, Copilot, Cursor and others) or `CLAUDE.md` (Claude Code), so every session
+knows the loops.
 
 ### 4. Things to ask
 
@@ -238,22 +252,24 @@ Machine SSIM 0.94, ΔE 3.8, 19 / 19 validate checks, and the same FBX sha256 on 
 
 ```text
 vr-dev-skills/
-├── .claude-plugin/          plugin.json + marketplace.json (this repo is its own marketplace)
+├── AGENTS.md                how agents should use and work on this repo
+├── .claude-plugin/          Claude Code plugin + marketplace manifests (optional packaging)
 ├── skills/
 │   ├── unity-quest-sim-loop/    SKILL.md · scripts/ · assets/ (C# templates, scenarios) · references/ · evals/
 │   ├── horizon-os-mcp/          SKILL.md · scripts/mcp_probe.py · references/perf-playbook.md
 │   ├── quest-build-deploy/      SKILL.md · scripts/ (unity_build.ps1, quest_deploy.py) · assets/QuestBuild.cs
 │   └── blender-cli-vr-assets/   SKILL.md · scripts/ · references/ · examples/hello-room/
-├── mcp/                     .mcp.json for a Unity project + connection notes
-├── templates/               CLAUDE.md section for a Quest project
+├── mcp/                     MCP configs for a Unity project (Codex, Claude Code) + connection notes
+├── templates/               AGENTS.md / CLAUDE.md section for a Quest project
 ├── docs/                    diagrams (+ their generators in docs/assets/src), showcase images, the case study
 └── tools/                   install scripts, check_repo.py (secrets / personal data / skill lint)
 ```
 
 ## Requirements and compatibility
 
-- **Claude Code** (CLI, desktop or IDE). The skills are plain Markdown + scripts, so other agents
-  that read `SKILL.md` folders can use them too.
+- **Any coding agent that reads Agent Skills** (`SKILL.md` folders): Codex, Claude Code, Gemini CLI,
+  GitHub Copilot, Cursor, OpenCode and others. The skills are Markdown plus Python / PowerShell
+  scripts, with nothing tied to one harness; MCP features need an agent with MCP support.
 - **Unity 6** with Android Build Support, **Meta XR SDK 203 or 205+** (all-in-one or Core), OpenXR.
   Templates cover both the Assembly-CSharp layout and asmdefs.
 - **Windows** for the editor-side scripts (PowerShell 5.1); the Python tools also run on macOS and

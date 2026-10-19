@@ -139,8 +139,8 @@ is invisible without anyone describing the view.
 
 ## Performance with hzos-dev-mcp
 
-Load the tools with ToolSearch; they're prefixed `mcp__hzos-dev-mcp__` or
-`mcp__plugin_meta-vr_metavr__`.
+Register the server as the `horizon-os-mcp` skill describes. If your agent loads MCP tools
+lazily (Claude Code's ToolSearch, for example), load them before calling.
 - **Capture:** `perf_trace_capture {mode: "vr", duration_ms: 10000, app: "<package>"}`,
   headset worn and app in the state under test. Or use `perf_trace_capture_start` /
   `_stop` around a scripted scenario.

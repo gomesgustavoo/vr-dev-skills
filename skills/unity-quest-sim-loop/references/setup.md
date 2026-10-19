@@ -31,8 +31,9 @@ rebuilding from Meta's docs; the templates are proven on both common layouts:
      It lets a project on an **older SDK** have the Operator's `openxr_*` tools. DevXr loads
      it with `XR_API_LAYER_PATH` / `XR_ENABLE_API_LAYERS` for each Play session, exactly as
      Meta's own enabler does for OpenXR plugins before 1.17.
-3. **Optional native MCP:** a project `.mcp.json` makes the Operator's tools first-class
-   (`mcp__meta-xr-operator__*`) for a Claude Code session started in that folder:
+3. **Optional native MCP:** registering the proxy as an MCP server makes the Operator's tools
+   first-class for an agent started in that folder. Claude Code reads a project `.mcp.json`; Codex
+   reads `[mcp_servers.meta-xr-operator]` in `.codex/config.toml` (same command, no args):
    ```json
    { "mcpServers": { "meta-xr-operator": { "type": "stdio",
        "command": "C:\\Users\\<you>\\meta-xr-operator\\meta-xr-operator-mcp-proxy.exe", "args": [] } } }

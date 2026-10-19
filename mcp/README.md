@@ -9,31 +9,37 @@ Two MCP servers make the loop work. Neither is part of this repo; both come from
 
 ## Add them
 
+Both are plain stdio servers, so any agent with MCP support can use them.
+
 **User scope** (every project on this machine):
 ```bash
-claude mcp add --scope user metavr -- npx -y metavr mcp server
+codex mcp add metavr -- npx -y metavr mcp server                    # Codex
+claude mcp add --scope user metavr -- npx -y metavr mcp server      # Claude Code
 ```
-On native Windows, if `npx` does not start from Claude Code, wrap it:
-`claude mcp add --scope user metavr -- cmd /c npx -y metavr mcp server`.
+Other agents: add a stdio server with command `npx` and args `-y metavr mcp server`. On native
+Windows, if `npx` does not start from the agent, use `cmd /c npx -y metavr mcp server`.
 
-**Project scope** (committed, so every session in the Unity project has them): copy
-[`project.mcp.json`](project.mcp.json) to the project root as `.mcp.json`. `${USERPROFILE}` is
-expanded by Claude Code at launch, so the file carries no personal path.
+**Project scope** (committed, so every session in the Unity project has them):
+- Codex: the tables in [`codex.config.toml`](codex.config.toml) go into the project's
+  `.codex/config.toml` (Codex loads it for trusted projects).
+- Claude Code: copy [`project.mcp.json`](project.mcp.json) to the project root as `.mcp.json`.
+  `${USERPROFILE}` is expanded at launch, so the file carries no personal path.
 
-If you install Meta's own plugin (`/plugin install meta-vr@meta-quest`), it already registers
-`metavr`; don't add it a second time - duplicate servers only give every tool twice.
+If you install Meta's own [agentic-tools](https://github.com/meta-quest/agentic-tools) plugin, it
+already registers `metavr`; don't add it a second time - duplicate servers only give every tool
+twice.
 
 ## Check them
 
 ```bash
-claude mcp list                                                     # Connected / failed per server
+codex mcp list   |   claude mcp list                                # the agent's view: Connected / failed
 python skills/horizon-os-mcp/scripts/mcp_probe.py --server both     # version, tool count, a timed docs query
 python skills/unity-quest-sim-loop/scripts/op.py list               # Operator tools ([OFFLINE] = no app attached)
 ```
 
 Measured on Windows 11, 2026-10: `metavr` 1.8 (npx) lists 38 tools and answers a docs search in
 about 2 s; the MQDH-bundled 1.6 lists 36 (no `perf_session`, `perf_memory_snapshot`).
-`claude mcp list` prints `unknown format "uint" ignored in schema` warnings for the perf tools'
+Claude Code's `claude mcp list` prints `unknown format "uint" ignored in schema` warnings for the perf tools'
 output schemas; they are harmless.
 
 ## Not recommended

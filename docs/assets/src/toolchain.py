@@ -12,9 +12,9 @@ d.heading("One agent, four skills", "Every stage hands the next one something it
 # ---- the agent and its skills
 TY, TH = 124, 72
 d.card(M, TY, W - 2 * M, TH)
-d.icon("si-claude", M + 22, TY + 24, 24, CLAUDE)
-d.t("Claude Code", "inter-600", 17, M + 58, TY + 33, T1)
-d.t("vr-dev plugin", "inter-400", 13, M + 58, TY + 53, T3)
+d.icon("lu-square-terminal", M + 22, TY + 24, 24, T1, stroke=1.8)
+d.t("Your agent", "inter-600", 17, M + 58, TY + 33, T1)
+d.t("Claude Code, Codex, Gemini CLI, Copilot", "inter-400", 13, M + 58, TY + 53, T3)
 skills = [("tb-cardboards", T2, "unity-quest-sim-loop"), ("lu-rocket", T2, "quest-build-deploy"),
           ("si-meta", META, "horizon-os-mcp"), ("si-blender", BLENDER, "blender-cli-vr-assets")]
 widths = [font("jbm-400").width(n, 12.5) + 52 for _, _, n in skills]
@@ -72,7 +72,7 @@ for i in range(3):
     d.add('<circle cx="%g" cy="%g" r="3" fill="#3B2F63"/>' % (cxl, BY))
 
 write(d.svg("One agent, four skills",
-            "Claude Code with the vr-dev plugin uses four skills. Headless Blender builds validated assets for Unity; Unity runs "
+            "A coding agent (Claude Code, Codex, Gemini CLI, Copilot) uses four skills. Headless Blender builds validated assets for Unity; Unity runs "
             "the app on the Meta XR Simulator, driven through the XR Operator and DevRemote; development builds go to a Quest 3 or "
             "3S over adb with a scripted readout. The Horizon OS MCP serves Meta docs, device control and Perfetto traces to every stage."),
       sys.argv[1] if len(sys.argv) > 1 else "toolchain.svg")

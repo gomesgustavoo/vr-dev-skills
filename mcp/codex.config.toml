@@ -1,0 +1,11 @@
+# Codex: put these tables in your Unity project's .codex/config.toml (trusted projects) or in
+# ~/.codex/config.toml. Same servers as project.mcp.json (Claude Code). Replace <you> with your
+# Windows user name, or point command at wherever you copied the Operator proxy.
+
+[mcp_servers.metavr]
+command = "npx"
+args = ["-y", "metavr", "mcp", "server"]
+
+[mcp_servers.meta-xr-operator]
+command = 'C:\Users\<you>\meta-xr-operator\meta-xr-operator-mcp-proxy.exe'
+args = []
