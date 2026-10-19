@@ -3,19 +3,15 @@
 </p>
 
 <p align="center">
-  <a href="#quick-start"><img src="https://img.shields.io/badge/Claude_Code-plugin-D97757?style=for-the-badge&logo=claude&logoColor=white" alt="Claude Code plugin"></a>
-  <img src="https://img.shields.io/badge/Meta_Quest-3_%7C_3S-0467DF?style=for-the-badge&logo=meta&logoColor=white" alt="Meta Quest 3 | 3S">
-  <img src="https://img.shields.io/badge/Unity-6-111111?style=for-the-badge&logo=unity&logoColor=white" alt="Unity 6">
-  <img src="https://img.shields.io/badge/Meta_XR_SDK-203_%7C_205-1C2B33?style=for-the-badge" alt="Meta XR SDK 203 | 205">
-  <img src="https://img.shields.io/badge/Blender-headless-F5792A?style=for-the-badge&logo=blender&logoColor=white" alt="Blender headless">
-  <img src="https://img.shields.io/badge/MCP-Horizon_OS-8B5CF6?style=for-the-badge" alt="Horizon OS MCP">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-22C55E?style=for-the-badge" alt="MIT license"></a>
+  <a href="#quick-start"><img src="https://img.shields.io/badge/Claude_Code-plugin-D97757?style=flat-square&logo=claude&logoColor=white&labelColor=161B22" alt="Claude Code plugin"></a>
+  <img src="https://img.shields.io/badge/Meta_XR_SDK-203_%7C_205-0A84FF?style=flat-square&logo=meta&logoColor=white&labelColor=161B22" alt="Meta XR SDK 203 | 205">
+  <img src="https://img.shields.io/badge/Unity-6-C9D1D9?style=flat-square&logo=unity&logoColor=white&labelColor=161B22" alt="Unity 6">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-3FB950?style=flat-square&labelColor=161B22" alt="MIT license"></a>
 </p>
 
 <p align="center">
-  <b>Agent skills that let Claude Code build, test and debug Meta Quest apps without putting on the headset.</b><br>
-  Unity Play Mode on the Meta XR Simulator, driven through the Meta XR Operator · Meta's Horizon OS MCP for docs, devices and traces ·<br>
-  headless builds with gates and a scripted device readout · a headless Blender pipeline for VR-ready assets.
+  Test a Meta Quest app the way you test a web app: run it in the simulator, let the agent drive it,<br>
+  assert on its state, and save the headset for the questions only hardware can answer.
 </p>
 
 <p align="center">
@@ -31,9 +27,9 @@
 
 ## Why
 
-A screenshot of a VR scene can't tell **"the button did nothing"** from **"the ray wasn't on the
-button"**. A headset round trip (build, sideload, put it on, look) costs about four minutes and
-needs a person wearing it. So these skills replace *looking* with *asking*:
+A screenshot of a VR scene can't tell **"the button did nothing"** from **"the ray never reached
+the button"**, and every headset round trip (build, sideload, put it on, look) costs about four
+minutes and a person wearing it. These skills swap *looking* for *asking*:
 
 1. **Ask** the running app for its state, through tools the app registers for the agent.
 2. **Act** through the real input path: simulated head, Touch controllers, buttons.
@@ -250,7 +246,7 @@ vr-dev-skills/
 │   └── blender-cli-vr-assets/   SKILL.md · scripts/ · references/ · examples/hello-room/
 ├── mcp/                     .mcp.json for a Unity project + connection notes
 ├── templates/               CLAUDE.md section for a Quest project
-├── docs/                    diagrams, showcase images, the case study
+├── docs/                    diagrams (+ their generators in docs/assets/src), showcase images, the case study
 └── tools/                   install scripts, check_repo.py (secrets / personal data / skill lint)
 ```
 
@@ -283,5 +279,10 @@ Claude Code. The Meta XR Simulator, the Meta XR Operator, `metavr` / `hzos-dev-m
 `agentic-tools` skills are Meta's; this repo contains no Meta binaries and links to Meta's own
 distribution. Meta, Meta Quest and Horizon OS are trademarks of Meta Platforms, Inc.; Unity is a
 trademark of Unity Technologies; Blender is a trademark of the Blender Foundation.
+
+The diagrams are generated from code in [`docs/assets/src`](docs/assets/src/make.py): brand marks from
+[Simple Icons](https://simpleicons.org) (CC0; the marks belong to their owners), line icons from
+[Lucide](https://lucide.dev) (ISC) and [Tabler](https://tabler.io/icons) (MIT), and text set in Inter and
+JetBrains Mono (SIL OFL 1.1), converted to outlines so every platform renders the same picture.
 
 Released under the [MIT license](LICENSE).

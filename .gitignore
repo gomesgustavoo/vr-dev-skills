@@ -12,3 +12,5 @@ Thumbs.db
 .idea/
 # default output of imgdiff.py when run from its own folder
 imgdiff-mask.png
+# pinned fonts and icons for the diagram generators (docs/assets/src/fetch.py)
+docs/assets/src/.cache/
