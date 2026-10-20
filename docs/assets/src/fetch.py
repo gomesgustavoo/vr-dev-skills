@@ -37,7 +37,7 @@ ASSETS = {  # cache path: (url, sha256)
     "icons/lu-camera.svg": (LU % "camera", "5388c29f288d9e94d9f927a85a6319fd1d73a49993184bfa0a1237aa64ef0b13"),
     "icons/lu-code-xml.svg": (LU % "code-xml", "1bdde654ff1dfcab351cb51a9365799a7daebed70941c27de8b8c0d0f74bfa0a"),
     "icons/lu-list-checks.svg": (LU % "list-checks", "a0ce5eff7f65bac7fdffebcff850c2cd4dedd28141822729b236526f1c7656a9"),
-    "icons/lu-lock-keyhole.svg": (LU % "lock-keyhole", "f136ce885db37b7628684b733701331d98c0f307908f248172cbee8514e706f3"),
+    "icons/lu-lock-keyhole.svg": (LU % "lock-keyhole", "f136ce885db37b7628684b733701331d98c0f307908f248172cbee8514e706f3"),  # gitleaks:allow (file hash)
     "icons/lu-mouse-pointer-click.svg": (LU % "mouse-pointer-click", "116a7c8a962a85467e9464a1b055b8b649def2257fe4a30c186efc740b0f989f"),
     "icons/lu-refresh-cw.svg": (LU % "refresh-cw", "37b0bfd29e4860483c533abd85c7bb5bc87a8478492b9b69f90e77ddfdc3d222"),
     "icons/lu-rocket.svg": (LU % "rocket", "2e24d9b9ba9a0df601d8b1e254c6457d16dd1738d3981a3a51817f14dcc5cf0c"),

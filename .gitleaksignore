@@ -1,0 +1,3 @@
+# Reviewed false positives (gitleaks fingerprints). Each line: commit:file:rule:line.
+# fetch.py pins the sha256 of the public Lucide "lock-keyhole" icon; "key" in the name trips generic-api-key.
+6b42c4208244e95b00ebf7d79f7606954abc6bcf:docs/assets/src/fetch.py:generic-api-key:36
